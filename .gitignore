@@ -5,7 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
-src/data/
+src/data/credits.csv
+src/data/keywords.csv
+src/data/movies_metadata.csv
 # node
 package-lock.json
 
