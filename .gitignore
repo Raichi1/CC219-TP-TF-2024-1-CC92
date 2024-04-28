@@ -8,6 +8,9 @@ __pycache__/
 src/data/credits.csv
 src/data/keywords.csv
 src/data/movies_metadata.csv
+src/data/links.csv
+src/data/ratings.csv
+
 # node
 package-lock.json
 
