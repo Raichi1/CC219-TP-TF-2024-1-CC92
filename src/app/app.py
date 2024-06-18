@@ -12,8 +12,6 @@ app.register_blueprint(api_app)
 def home():
     return render_template('index.html')
 
-
-
 if __name__ == '__main__':
     app.run(debug=True)
 
