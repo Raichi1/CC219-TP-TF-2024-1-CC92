@@ -56,3 +56,8 @@ body{
     flex-direction: column;
     gap: 20px;
 }
+.container{
+    color: red;
+    background-color: red;
+    
+}

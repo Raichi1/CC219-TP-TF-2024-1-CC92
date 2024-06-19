@@ -10,7 +10,7 @@ data = load_dataset()
 
 # Load the movies dictionary
 movies = load_movies()
-
+    
 # ************************************ API Endpoints ************************************ #
 # Api endpoint to get the dataset
 @api.route('/api', methods=['GET'])
