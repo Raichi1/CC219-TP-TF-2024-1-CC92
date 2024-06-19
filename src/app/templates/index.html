@@ -31,11 +31,12 @@
             <div class="list-movies">
                 {% for movie in popular_movies %}
                 <div class="card" id="{{movie.id}}">
-                    <img src="{{movie.image}}" alt="{{ movie.title }}" />
                     <article>
                         <p>{{ movie.title }}</p>
                         <p>{{ movie.release_date }}</p>
                     </article>
+                    <img src="{{movie.image}}" alt="{{ movie.title }}" />
+                    
                 </div>
                 {% endfor %}
             </div>

@@ -9,11 +9,11 @@ app = Flask(__name__)
 app.register_blueprint(api_app)
 
 data = load_dataset()
-
-# ************************************ API Endpoints ************************************ #    
+ 
 @app.route('/')
 def home():
     popular_movies = json_popular_movies()
+    popular_movies = popular_movies[:8]
     return render_template("index.html", popular_movies = popular_movies)
 
 if __name__ == '__main__':

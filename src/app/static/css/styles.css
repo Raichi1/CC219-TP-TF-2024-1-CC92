@@ -15,7 +15,6 @@ body{
 .main{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     height: 100vh;
     width: 100vw;
 }
@@ -35,6 +34,7 @@ body{
     background-color: #333;
     color: #fff;
     padding: 10px 5px 10px 5px;
+    background-color: green;
 }
 
 .navbar-content{
@@ -56,8 +56,54 @@ body{
     flex-direction: column;
     gap: 20px;
 }
-.container{
-    color: red;
-    background-color: red;
+
+.movies-popular {
+    width: 100%;
+}
+
+.list-movies {
+    height: 100%;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Pone los elementos hijos en una columna */
+    align-items: center; /* Alinea los elementos hijos horizontalmente */
+    //justify-content: center; /* Justifica los elementos hijos verticalmente */
+    padding: 10px 0;
+    box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
+
+    img {
+        width: 55%;
+        height: auto;
+        border-radius: 5px;
+    }
     
+    article {
+		display: flex;
+		flex-direction: column;
+        margin-bottom: 10px;
+
+		p {
+			margin: 0;
+			line-height: 1.5;
+            text-align: center;
+			&:first-child {
+				font-weight: 900;
+			}
+
+			&:last-child {
+				color: gray;
+                font-weight: 500;
+			}
+		}
+	}
 }
