@@ -57,7 +57,7 @@ body{
     gap: 20px;
 }
 
-.movies-popular {
+#movies-popular {
     width: 100%;
 }
 
@@ -106,4 +106,9 @@ body{
 			}
 		}
 	}
+}
+.card:hover {
+    transform: scale(1.05); /* Slightly enlarges the card */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Makes the shadow more pronounced */
+    cursor: pointer; /* Changes the cursor to indicate the item is clickable */
 }
