@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint, request, jsonify
-from utils import load_dataset, load_movies
+from utils import load_dataset, load_movies, json_popular_movies
 import json
 import os
+import random
 
 api = Blueprint('api', __name__)
 
@@ -24,3 +25,9 @@ def get_dataset_by_id(id):
     if movies[id] is not None:
         return jsonify(movies[id])
     return jsonify({'message': 'data not found'})
+
+@api.route('/api/movies', methods=['GET'])
+def test_movies():
+    popular_movies = json_popular_movies()
+    popular_movies = random.sample(popular_movies, 8)
+    return jsonify(popular_movies)

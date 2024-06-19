@@ -1,19 +1,20 @@
-
 document.addEventListener('DOMContentLoaded', function () {
-    const moviesPopularList = document.getElementsByClassName('list-movies')
+    // Seleccionar el contenedor padre de la lista de películas en lugar de una colección de elementos
+    const moviesContainer = document.querySelector('.list-movies');
 
     document.getElementById('refresh-button').addEventListener('click', function () {
-        fetch('/test')
+        fetch('/api/movies')
             .then(response => response.json())
             .then(movies => {
                 console.log(movies);
-                moviesPopularList.innerHTML = '';
+                // Limpiar el contenedor de películas antes de agregar nuevos elementos
+                moviesContainer.innerHTML = '';
+  
                 if (movies.length === 0) {
-                    moviesPopularList.innerHTML = 'No hay películas populares';
+                    moviesContainer.innerHTML = 'No hay películas populares';
                 }
                 movies.forEach(movie => {
                     const template = document.getElementById('movie-template').content.cloneNode(true);
-                    const moviesContainer = document.querySelector('.list-movies');
 
                     // Rellenar los datos en el template
                     template.querySelector('.title').textContent = movie.title;
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Crear un div contenedor para la película y agregar el template rellenado
                     const movieElement = document.createElement('div');
-                    movieElement.classList.add('card');
+                    //movieElement.classList.add('card');
                     movieElement.id = movie.id;
                     movieElement.appendChild(template);
 
