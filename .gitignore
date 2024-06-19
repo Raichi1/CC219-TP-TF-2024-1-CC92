@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 src/models/data/ratings.csv
+src/models/data/ratings_filtered.csv
 
 # node
 package-lock.json
