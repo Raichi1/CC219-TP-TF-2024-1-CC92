@@ -1,56 +1,71 @@
-import os
 import json
 import numpy as np
 from tensorflow.keras.models import load_model
+from flask import Flask, Blueprint, request, jsonify
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils import load_movies
+# Crear el blueprint
+rmb_bp = Blueprint('rmb_bp', __name__)
 
+class RecommendationSystem:
+    def __init__(self, model_path, dataset_path):
+        self.model_path = model_path
+        self.dataset_path = dataset_path
+        self.rbm_model = load_model(self.model_path)
+        
+        # Extraer los pesos del modelo
+        self.weights_hidden_layer = self.rbm_model.layers[1].get_weights()[0]
+        self.weights_visible_layer = self.rbm_model.layers[2].get_weights()[0]
+        
+        self.user_embedding = self.weights_hidden_layer.T
+        self.item_embedding = self.weights_visible_layer
+        
+        self.movies = self._load_movies()
 
-# Cargar el modelo RBM preentrenado
-path_model = '../../models/rbm.h5'  # Ajusta la ruta según sea necesario
-rbm_model = load_model(path_model)
+    def _load_dataset(self):
+        with open(self.dataset_path, 'r') as file:
+            dataset = json.load(file)
+        return dataset
 
-# Suponiendo que tienes las matrices de embeddings ya extraídas
-weights_hidden_layer = rbm_model.layers[1].get_weights()[0]  # Pesos entre la capa visible y la capa oculta
-weights_visible_layer = rbm_model.layers[2].get_weights()[0]  # Pesos entre la capa oculta y la capa visible
+    def _load_movies(self):
+        movies_dict = {}
+        data = self._load_dataset()
+        for dt_json in data:
+            id = int(dt_json['id'])
+            movies_dict[id] = dt_json
+        return movies_dict
 
-user_embedding = weights_hidden_layer.T  # Transponer para obtener la matriz de embeddings de usuarios
-item_embedding = weights_visible_layer  # Matriz de embeddings de elementos/películas
+    def predict_ratings_for_new_user(self, new_user_interactions):
+        new_user_vector = np.zeros((1, self.user_embedding.shape[1]))
+        for movie_id, rating in new_user_interactions.items():
+            new_user_vector[0, movie_id] = rating
+        
+        predicted_ratings = np.dot(self.user_embedding, new_user_vector[0])
+        recommended_movies = np.argsort(predicted_ratings)[::-1]
+        return recommended_movies
 
-def predict_ratings_for_new_user(new_user_interactions):
-    # Crear un vector para el nuevo usuario con sus interacciones
-    new_user_vector = np.zeros((1, user_embedding.shape[1]))  # Asumiendo que el número de usuarios es la dimensión correcta
-    print(len(new_user_vector[0]))
-    for movie_id, rating in new_user_interactions.items():
-        new_user_vector[0, movie_id] = rating  # -1 porque los índices comienzan desde 0
-    
-    # Hacer predicciones multiplicando los embeddings
-    predicted_ratings = np.dot(user_embedding, new_user_vector[0])
-    
-    # Ordenar las películas por las predicciones de calificación (en orden descendente)
-    recommended_movies = np.argsort(predicted_ratings)[::-1]
-    
-    return recommended_movies
+    def recommend(self, new_user_interactions):
+        new_user_interactions = {int(movie_id): rating for movie_id, rating in new_user_interactions.items()}
+        recommended_movies = self.predict_ratings_for_new_user(new_user_interactions)
+        
+        recommendations = []
+        cont = 0
 
-# Ejemplo de uso:
-new_user_interactions = {
-    5: 4,   # El nuevo usuario dio una calificación de 4.0 a la película con movieId 5
-    79: 3, # Calificación de 3.5 para la película con movieId 869, etc.
-    25: 2,
-    43: 4,
-    58: 1
-}
+        for movie_id in recommended_movies:
+            if cont == 10:
+                break
+            if movie_id in self.movies:
+                recommendations.append({"movie_id": self.movies[movie_id]['id'], "title": self.movies[movie_id]['title']})
+                cont += 1
+        
+        return recommendations
 
-movies = load_movies()
-recommended_movies = predict_ratings_for_new_user(new_user_interactions)
-print("Películas recomendadas para el nuevo usuario:")
+# Crear una instancia de la clase RecommendationSystem
+model_path = '../models/rbm.h5'
+dataset_path = '../models/data/dataset.json'
+recommendation_system = RecommendationSystem(model_path, dataset_path)
 
-cont = 0
-print(len(recommended_movies))
-for movie_id in recommended_movies:  # Mostrar las primeras 10 recomendaciones
-    if cont == 10:
-        break
-    if movie_id in movies :
-        print(f"MovieID: {movies[movie_id]['title']}") 
-        cont += 1
+@rmb_bp.route('/recommend', methods=['POST'])
+def recommend():
+    new_user_interactions = request.json
+    recommendations = recommendation_system.recommend(new_user_interactions)
+    return jsonify(recommendations)

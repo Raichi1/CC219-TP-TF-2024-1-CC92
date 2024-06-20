@@ -16,7 +16,7 @@ movies = load_movies()
 # Api endpoint to get the dataset
 @api.route('/api', methods=['GET'])
 def get_dataset():
-    dataset = data[:10]
+    dataset = data[:50]
     return jsonify(dataset)
 
 # Api endpoint to get the dataset by id

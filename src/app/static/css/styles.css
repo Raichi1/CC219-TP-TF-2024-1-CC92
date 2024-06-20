@@ -12,12 +12,16 @@ body{
     padding: 0;
 }
 
+/* Styles to the main page of the website */
+
 .main{
     display: flex;
     flex-direction: row;
     height: 100vh;
     width: 100vw;
 }
+
+/* Styles to the navigation bar */
 
 .web-name{
     padding: 5px 10px 5px 10px;
@@ -27,7 +31,7 @@ body{
 
 .navbar-web{
     height: 100vh;
-    min-width: 200px;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -47,7 +51,7 @@ body{
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 20px;
     height: 100%;
 }
 
@@ -56,6 +60,39 @@ body{
     flex-direction: column;
     gap: 20px;
 }
+
+/* Styles for the user's movie list */
+
+.container-buttons{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.container-movies-options{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.container-movies-options > div{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.movies-ratings{
+    width: 20%;
+}
+
+.movies-options{
+    width: 70%;
+}
+
+#submit, #add-movie{
+    margin: 5px 0 0 0;
+}
+
+/* Styles for film containers */
 
 #movies-popular {
     width: 100%;
@@ -77,12 +114,12 @@ body{
     display: flex;
     flex-direction: column; /* Pone los elementos hijos en una columna */
     align-items: center; /* Alinea los elementos hijos horizontalmente */
-    //justify-content: center; /* Justifica los elementos hijos verticalmente */
-    padding: 10px 0;
+    justify-content: center; /* Justifica los elementos hijos verticalmente */
+    padding: 5px 0;
     box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
 
     img {
-        width: 55%;
+        width: 50%;
         height: auto;
         border-radius: 5px;
     }
@@ -107,6 +144,7 @@ body{
 		}
 	}
 }
+
 .card:hover {
     transform: scale(1.05); /* Slightly enlarges the card */
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Makes the shadow more pronounced */
