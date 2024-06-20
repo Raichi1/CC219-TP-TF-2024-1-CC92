@@ -54,7 +54,11 @@ class RecommendationSystem:
             if cont == 10:
                 break
             if movie_id in self.movies:
-                recommendations.append({"movie_id": self.movies[movie_id]['id'], "title": self.movies[movie_id]['title']})
+                recommendations.append({"movie_id": self.movies[movie_id]['id'], 
+                                        "title": self.movies[movie_id]['title'], 
+                                        "date": self.movies[movie_id]['release_date'],
+                                        "poster": self.movies[movie_id]['poster_path']
+                                        })
                 cont += 1
         
         return recommendations
@@ -67,5 +71,5 @@ recommendation_system = RecommendationSystem(model_path, dataset_path)
 @rmb_bp.route('/recommend', methods=['POST'])
 def recommend():
     new_user_interactions = request.json
-    recommendations = recommendation_system.recommend(new_user_interactions)
+    recommendations = recommendation_system.recommend(new_user_interactions)[:8]
     return jsonify(recommendations)
