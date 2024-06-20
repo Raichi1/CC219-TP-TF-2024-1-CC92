@@ -7,6 +7,10 @@ __pycache__/
 *.so
 src/models/data/ratings.csv
 src/models/data/ratings_filtered.csv
+src/models/data/movies_metadata.csv
+src/models/data/credits.csv
+src/models/data/keywords.csv
+src/models/data/dataset.json
 
 # node
 package-lock.json

@@ -18,7 +18,12 @@
             <div class="navbar-content">
                 <div class="navbar-icons">
                     <div class="navbar-movies">
-                        <div><input type="text" placeholder="Search"><button><i class="fa-solid fa-magnifying-glass"></i></button></div>
+                        <!-- <div><input type="text" placeholder="Search"><button><i class="fa-solid fa-magnifying-glass"></i></button></div> -->
+                         <select id="model-options" width = 50%>
+                            <option value="rbm">Restrictive Boltzman Machine</option>
+                            <option value="embeddings">Embeddings</option>
+                            <option value="dnn">Deep Neuronal Network</option>
+                         </select>
                     </div>
                     <div>
                         <form id = "container-options" action="/recommend" method = "post">
@@ -52,10 +57,10 @@
                 {% for movie in popular_movies %}
                 <div class = "card" id = "{{ movie.id }}">
                     <article>
-                        <p>{{ movie.title }}</p>
-                        <p>{{ movie.release_date }}</p>
+                        <p class = "card-title">{{ movie.title }}</p>
+                        <p class = "card-date">{{ movie.release_date }}</p>
                     </article>
-                    <img src = "{{ movie.image }}" alt = "{{ movie.title }}" />
+                    <img class = "card-movie" src = "{{ movie.image }}" alt = "{{ movie.title }}" />
                 </div>
                 {% endfor %}
             </div>
@@ -63,19 +68,19 @@
     </section>
 
     <!-- Template for movie cards -->
-    <!-- <template id="movie-template"> -->
-        <!-- <div class="card"> -->
-            <!-- <article> -->
-                <!-- <p class="title"></p> -->
-                <!-- <p class="release-date"></p> -->
-            <!-- </article> -->
-            <!-- <img src="" alt="" /> -->
-        <!-- </div> -->
-    <!-- </template> -->
+    <template id="movie-template">
+        <div class="card">
+            <article>
+                <p class="title"></p>
+                <p class="release-date"></p>
+            </article>
+            <img src="" alt="" />
+        </div>
+    </template>
 
     <!-- Script for the selection of movie options -->
     <script src = "../static/js/add_movie.js"></script>
-    <script src = "../static/js/rbm_model.js"></script>
+    <script src = "../static/js/models.js"></script>
 </body>
 
 </html>
