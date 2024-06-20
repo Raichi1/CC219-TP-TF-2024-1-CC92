@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 
 <body>
@@ -17,12 +16,22 @@
         <div class="navbar-web">
             <h1 class="web-name">MOnline</h1>
             <div class="navbar-content">
-                <ul class="navbar-icons">
+                <div class="navbar-icons">
                     <div class="navbar-movies">
-                        <li><input type="text" placeholder="Search"><button><i
-                                    class="fa-solid fa-magnifying-glass"></i></button></li>
+                        <div><input type="text" placeholder="Search"><button><i class="fa-solid fa-magnifying-glass"></i></button></div>
                     </div>
-                </ul>
+                    <div>
+                        <form id = "container-options" action="/recommend" method = "post">
+                            <div class = "container-movies-options">
+                                <div>
+                                    <select class = "movies-options" name = "options"></select>
+                                    <input class = "movies-ratings" type="text" placeholder = "Rating" maxlength = "1">
+                                </div>
+                            </div>
+                                <input id = "submit" type = "submit" value = "Enviar">
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="movies_header">
                 <button id="refresh-button">
@@ -34,18 +43,19 @@
                         <path d="M7.05 11.038v-3.988" />
                     </svg>
                 </button>
+                <button id="add-movie"><i class="fa-solid fa-plus"></i></button>
             </div>
         </div>
 
-        <section id="movies-popular">
-            <div class="list-movies">
+        <section id = "movies-popular">
+            <div class = "list-movies">
                 {% for movie in popular_movies %}
-                <div class="card" id="{{movie.id}}">
+                <div class = "card" id = "{{ movie.id }}">
                     <article>
                         <p>{{ movie.title }}</p>
                         <p>{{ movie.release_date }}</p>
                     </article>
-                    <img src="{{movie.image}}" alt="{{ movie.title }}" />
+                    <img src = "{{ movie.image }}" alt = "{{ movie.title }}" />
                 </div>
                 {% endfor %}
             </div>
@@ -53,16 +63,19 @@
     </section>
 
     <!-- Template for movie cards -->
-    <template id="movie-template">
-        <div class="card">
-            <article>
-                <p class="title"></p>
-                <p class="release-date"></p>
-            </article>
-            <img src="" alt="" />
-        </div>
-    </template>
+    <!-- <template id="movie-template"> -->
+        <!-- <div class="card"> -->
+            <!-- <article> -->
+                <!-- <p class="title"></p> -->
+                <!-- <p class="release-date"></p> -->
+            <!-- </article> -->
+            <!-- <img src="" alt="" /> -->
+        <!-- </div> -->
+    <!-- </template> -->
 
+    <!-- Script for the selection of movie options -->
+    <script src = "../static/js/add_movie.js"></script>
+    <script src = "../static/js/rbm_model.js"></script>
 </body>
 
 </html>

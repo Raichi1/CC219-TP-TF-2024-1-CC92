@@ -7,7 +7,7 @@ import requests
 # ************************************ Load the dataset ************************************ #
 def load_dataset():
     load_dotenv()
-    with open('src\models\data\dataset.json', 'r') as file:
+    with open('../models/data/dataset.json', 'r') as file:
         dataset = json.load(file)
     return dataset
 
