@@ -33,16 +33,40 @@ class RecommendationSystem:
             id = int(dt_json['id'])
             movies_dict[id] = dt_json
         return movies_dict
-
+    
+    # Function to predict ratings for a new user
     def predict_ratings_for_new_user(self, new_user_interactions):
+        # Create a new user vector
         new_user_vector = np.zeros((1, self.user_embedding.shape[1]))
-        for movie_id, rating in new_user_interactions.items():
-            new_user_vector[0, movie_id] = rating
         
+        movieId_to_index = {}
+        index_to_movieId = {}
+        with open('src/models/data/movieId_to_index.json', 'r') as file:
+            movieId_to_index = json.load(file)
+        with open('src/models/data/index_to_movieId.json', 'r') as file:
+            index_to_movieId = json.load(file)
+            
+        # TRANSFORM movieId_to_index IN A MAP
+        movieId_to_index = {int(movie_id): index for movie_id, index in movieId_to_index.items()}
+        index_to_movieId = {int(index): movie_id for index, movie_id in index_to_movieId.items()}
+        
+        seen_movies_indices = set()
+        
+        for movie_id, rating in new_user_interactions.items():
+            index = movieId_to_index[movie_id]
+            new_user_vector[0, index] = rating > 0
+            # Save the indices of the movies that the user has seen
+            if rating > 0:
+                seen_movies_indices.add(index)
+        
+        # Multiply the user vector with the item embeddings to get the predicted ratings
         predicted_ratings = np.dot(self.user_embedding, new_user_vector[0])
+        # Argsort to get the indices of the movies with the highest predicted ratings
         recommended_movies = np.argsort(predicted_ratings)[::-1]
-        return recommended_movies
-
+        # Convert the indices of user_matrix_binary to movieId and verify if the movie has been seen by the user
+        recommended_movie_ids = [index_to_movieId[index] for index in recommended_movies if index not in seen_movies_indices]
+        return recommended_movie_ids
+    
     def recommend(self, new_user_interactions):
         new_user_interactions = {int(movie_id): rating for movie_id, rating in new_user_interactions.items()}
         recommended_movies = self.predict_ratings_for_new_user(new_user_interactions)
@@ -54,18 +78,19 @@ class RecommendationSystem:
             if cont == 10:
                 break
             if movie_id in self.movies:
-                recommendations.append({"movie_id": self.movies[movie_id]['id'], 
-                                        "title": self.movies[movie_id]['title'], 
-                                        "date": self.movies[movie_id]['release_date'],
-                                        "poster": self.movies[movie_id]['poster_path']
-                                        })
+                recommendations.append(
+                    {"movie_id": self.movies[movie_id]['id'], 
+                    "title": self.movies[movie_id]['title'], 
+                    "date": self.movies[movie_id]['release_date'],
+                    "poster": self.movies[movie_id]['poster_path']
+                    })
                 cont += 1
         
         return recommendations
 
 # Crear una instancia de la clase RecommendationSystem
-model_path = '../models/rbm.h5'
-dataset_path = '../models/data/dataset.json'
+model_path = 'src/models/rbm.h5'
+dataset_path = 'src/models/data/dataset2.json'
 recommendation_system = RecommendationSystem(model_path, dataset_path)
 
 @rmb_bp.route('/recommend', methods=['POST'])

@@ -61,7 +61,7 @@ class RecommendationSystem:
 
 # Crear una instancia de la clase RecommendationSystem
 model_path = '../models/rbm.h5'
-dataset_path = '../models/data/dataset.json'
+dataset_path = '../models/data/dataset2.json'
 recommendation_system = RecommendationSystem(model_path, dataset_path)
 
 @rmb_bp.route('/recommend', methods=['POST'])
