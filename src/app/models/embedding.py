@@ -32,9 +32,9 @@ class Embeddings:
     def predict_ratings_for_new_user(self, userId, new_user_interactions):
         movie_id_mapping = {}
         index_to_movieId = {}
-        with open('src/models/data/movieId_to_index_embedding.json', 'r') as file:
+        with open('../models/data/movieId_to_index_embedding.json', 'r') as file:
             movie_id_mapping = json.load(file)
-        with open('src/models/data/index_to_movieId_embedding.json', 'r') as file:
+        with open('../models/data/index_to_movieId_embedding.json', 'r') as file:
             index_to_movieId = json.load(file)
         movie_id_mapping = {int(movie_id): index for movie_id, index in movie_id_mapping.items()}
         index_to_movieId = {int(index): movie_id for index, movie_id in index_to_movieId.items()}
@@ -84,8 +84,8 @@ class Embeddings:
         return recommendations
 
 # Crear una instancia de la clase RecommendationSystem
-model_path = 'src/models/embeddings.h5'
-dataset_path = 'src/models/data/dataset2.json'
+model_path = '../models/embeddings.h5'
+dataset_path = '../models/data/dataset2.json'
 recommendation_system = Embeddings(model_path, dataset_path)
 
 @embeddings_bp.route('/embeddings', methods=['POST'])

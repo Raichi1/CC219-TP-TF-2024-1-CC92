@@ -41,9 +41,9 @@ class RecommendationSystem:
         
         movieId_to_index = {}
         index_to_movieId = {}
-        with open('src/models/data/movieId_to_index.json', 'r') as file:
+        with open('../models/data/movieId_to_index.json', 'r') as file:
             movieId_to_index = json.load(file)
-        with open('src/models/data/index_to_movieId.json', 'r') as file:
+        with open('../models/data/index_to_movieId.json', 'r') as file:
             index_to_movieId = json.load(file)
             
         # TRANSFORM movieId_to_index IN A MAP
@@ -89,8 +89,8 @@ class RecommendationSystem:
         return recommendations
 
 # Crear una instancia de la clase RecommendationSystem
-model_path = 'src/models/rbm.h5'
-dataset_path = 'src/models/data/dataset2.json'
+model_path = '../models/rbm.h5'
+dataset_path = '../models/data/dataset2.json'
 recommendation_system = RecommendationSystem(model_path, dataset_path)
 
 @rmb_bp.route('/recommend', methods=['POST'])
