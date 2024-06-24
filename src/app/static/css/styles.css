@@ -19,6 +19,7 @@ body{
     flex-direction: row;
     height: 100vh;
     width: 100vw;
+    background: linear-gradient(to bottom right, purple, 20%, black);
 }
 
 /* Styles to the navigation bar */
@@ -35,10 +36,9 @@ body{
     display: flex;
     flex-direction: column;
     gap: 30px;
-    background-color: #333;
+    background: linear-gradient(to left top, purple, 5%, black);
     color: #fff;
     padding: 10px 5px 10px 5px;
-    background-color: green;
 }
 
 .navbar-content{
@@ -62,6 +62,10 @@ body{
 }
 
 /* Styles for the user's movie list */
+
+.navbar-icons{
+    margin: 0 1rem 0 0;
+}
 
 .container-buttons{
     display: flex;
@@ -90,6 +94,12 @@ body{
 
 #submit, #add-movie{
     margin: 5px 0 0 0;
+}
+
+#container-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* Styles for film containers */
@@ -145,8 +155,41 @@ body{
 	}
 }
 
+.card-title {
+    color: #fff
+}
+
 .card:hover {
     transform: scale(1.05); /* Slightly enlarges the card */
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Makes the shadow more pronounced */
     cursor: pointer; /* Changes the cursor to indicate the item is clickable */
+}
+
+select{
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.movies-ratings{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#submit{
+    height: 2rem;
+    background-color: #d2d2d2;
+    color: rgb(0, 0, 0);
+    margin: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+#submit:hover{
+    background-color: #bfbfbf;
+    transform: scale(1.1);
 }
